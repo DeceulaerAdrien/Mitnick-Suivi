@@ -1,0 +1,136 @@
+**Exercises**
+
+1. Search all sequences containing "Loxondota" in `/home/student/lorem.txt`
+    
+    > Flag : BC{GREP_ME_LOREM_FL4G}
+     
+2. Copy the file /etc/passwd to your home directory. Display the line starting with `student` name.
+    
+    > Your commands :  grep ‘^student’ passwd
+     
+3. Display the lines in the passwd file starting with login names of 3 or 4 characters.
+    
+    > Your commands :  awk -F: 'length($1) == 3 || length($1) ==4' passwd
+    
+4. In the file `/home/student/sample.txt` how many different values are there in the first column? in the second?
+    
+    > Your response : 4
+
+    > Your command : awk -F, '{print $1}' sample.txt |sort|uniq|wc -l && awk -F, '{print $2}' sample.txt | sort | uniq | wc -l
+     
+5. In the file `/home/student/sample.txt` sort the values in the second column by frequency of occurrence. (uniq -c can be useful)
+    
+    > Your response :
+     
+       4 20
+       2 10
+       1 30
+       1 11
+     
+    > Your command : awk -F ',' '{print $2}' sample.txt | sort | uniq -c | sort -nr
+     
+6. In the file `/home/student/iris.data` Change the column separator (comma) to tab (make sure that the changes are applied to the file)
+    
+    > Your response :
+         
+     5.1     3.5     1.4     0.2     Iris-setosa
+     4.9     3.0     1.4     0.2     Iris-setosa
+     4.7     3.2     1.3     0.2     Iris-setosa
+     4.6     3.1     1.5     0.2     Iris-setosa
+     5.0     3.6     1.4     0.2     Iris-setosa
+     5.4     3.9     1.7     0.4     Iris-setosa
+     4.6     3.4     1.4     0.3     Iris-setosa
+     5.0     3.4     1.5     0.2     Iris-setosa
+     4.4     2.9     1.4     0.2     Iris-setosa
+     
+     Ect …
+     
+    > Your command : sed -i 's/,/\t/g' iris.data
+     
+7. In the file `/home/student/iris.data`, extract from this file the column 3 (petal length in cm) (use cut )
+    
+    > Your response :
+ 
+     1.4
+     1.4
+     1.3
+     1.5
+     1.4
+     1.7
+     1.4
+     1.5
+     1.4
+     1.5
+     1.5
+     1.6
+     
+     ect…
+     
+    > Your command : cut  -f 3 iris.data
+     
+8. In the file `/home/student/iris.data`, count the number of flower species (cut and uniq)
+    
+    > Your response :
+        
+     Iris-setosa
+     Iris-versicolor
+     Iris-virginica
+     
+    > Your command : cut -f 5 iris.data | uniq
+     
+9. In the file `/home/student/iris.data`, sort by increasing petal length (see sort options)
+    
+    > Your response :
+     
+     
+     1.0
+     1.1
+     1.2
+     1.2
+     1.3
+     1.3
+     1.3
+     1.3
+     1.3
+     1.3
+     1.3
+     1.4
+     1.4
+     1.4
+     1.4
+     1.4
+     1.4
+      
+     
+     ect…
+     
+    > Your command : cut -f 3 iris.data | sort
+     
+10. In the file `/home/student/iris.data`, show only lines with petal length greater than the average size
+    
+    > Your response :  les champs ne sont pas nommer donc ou est la “average size” 
+     
+    > Your command :
+     
+11. Using `/etc/passwd`, extract the user and home directory fields for all users on your student machine for which the shell is set to `/bin/false`.
+    
+    > Your response : 
+    
+     systemd-timesync /run/systemd
+     systemd-network /run/systemd/netif
+     systemd-resolve /run/systemd/resolve
+     systemd-bus-proxy /run/systemd
+     syslog /home/syslog
+     _apt /nonexistent
+     lxd /var/lib/lxd/
+     mysql /nonexistent
+     messagebus /var/run/dbus
+     uuidd /run/uuidd
+     dnsmasq /var/lib/misc
+     postfix /var/spool/postfix
+     dovecot /usr/lib/dovecot
+     dovenull /nonexistent
+     colord /var/lib/colord
+     
+    > Your command : awk -F ':' '$7== "/bin/false" {print $1,$6}' passwd
+    
