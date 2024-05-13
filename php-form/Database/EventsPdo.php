@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Database;
 
 use PDO;
 
-class DatabasePdo extends PDO
+class EventsPdo extends PDO
 {
     private string $host = 'mysql';
     private string $db = 'event';

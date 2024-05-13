@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/config/dotenv.php';
 
-use App\DatabasePdo;
+use App\Database\EventsPdo;
 
 $validateType = [
     'bdate' => 'date',
@@ -45,7 +45,7 @@ function sanitize(array $data): array
         if ($key === 'recorded')
             $sanitized = $sanitized === 'yes' ? 1 : 0;
 
-        if (gettype($sanitized) === 'string')
+        if (gettype($sanitized) === 'string' && $key !== 'bdate')
             $sanitized = preg_replace('/[^a-zA-Z0-9\s]/', '', $sanitized); // tu en est la
 
         $sanitizedData[$key] = $sanitized;
@@ -158,11 +158,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $validatedData = validate($validateType, $sanitizedData);
 
     if (empty($validatedData[1])) {
+
         echo "<pre>";
         print_r($validatedData[0]);
         echo "</pre><br>";
 
-        $db = new DatabasePdo();
+        $db = new EventsPdo();
 
         try {
             $db->insertEvent($validatedData[0]);
