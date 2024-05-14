@@ -45,7 +45,7 @@ function sanitize(array $data): array
         if ($key === 'recorded')
             $sanitized = $sanitized === 'yes' ? 1 : 0;
 
-        if (gettype($sanitized) === 'string' && $key !== 'bdate')
+        if (gettype($sanitized) === 'string' && $key !== 'bdate' && $key !== 'email')
             $sanitized = preg_replace('/[^a-zA-Z0-9\s]/', '', $sanitized); // tu en est la
 
         $sanitizedData[$key] = $sanitized;
