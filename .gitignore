@@ -1,5 +1,4 @@
 **/.idea/
-/php-form/.idea/
-/php-form/mysql/
-/php-form/vendor/
-/php-form/.env
+**/mysql/
+**/vendor/
+**/env

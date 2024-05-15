@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/config/dotenv.php';
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Database\EventsPdo;
 

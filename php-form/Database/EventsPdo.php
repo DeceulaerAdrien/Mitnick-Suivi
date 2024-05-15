@@ -13,8 +13,8 @@ class EventsPdo extends PDO
 
     public function __construct()
     {
-        $this->user = $_ENV['DB_USER'];
-        $this->pass = $_ENV['DB_PASS'];
+        $this->user = getenv('DB_USER');
+        $this->pass = getenv('DB_PASS');
 
         $dsn = "mysql:host=$this->host;dbname=$this->db";
         $opt = [
@@ -23,7 +23,7 @@ class EventsPdo extends PDO
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
 
-        parent::__construct($dsn, $this->user, $this->pass,$opt);
+        parent::__construct($dsn, $this->user, $this->pass, $opt);
     }
 
     public function insertEvent(array $data): void
