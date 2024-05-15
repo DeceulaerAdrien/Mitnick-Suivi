@@ -20,6 +20,5 @@ CREATE TABLE IF NOT EXISTS event (
     contact_lastname VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     number VARCHAR(255) NOT NULL,
-    recorded TINYINT(1) NOT NULL,
-    fileToUpload BLOB
+    recorded TINYINT(1) NOT NULL
 );
