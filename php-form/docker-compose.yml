@@ -1,5 +1,10 @@
+# This is a Docker Compose file that defines multiple services for a PHP application.
+
 services:
 
+  # The phpapache service is built from a Dockerfile located in the config/dockerfiles directory.
+  # It is named phpapache and listens on port 80.
+  # It mounts the current directory to /var/www/html in the container and a custom Apache configuration file to the default sites-available configuration.
   phpapache:
     build:
       context: config/dockerfiles
@@ -11,6 +16,9 @@ services:
       - .:/var/www/html
       - ./config/apache.conf:/etc/apache2/sites-available/000-default.conf
 
+  # The phpmyadmin service is built from a Dockerfile located in the config/dockerfiles directory.
+  # It is named phpmyadmin and listens on port 81.
+  # It depends on the phpapache and mysql services.
   phpmyadmin:
     build:
       context: config/dockerfiles
@@ -22,6 +30,9 @@ services:
       - phpapache
       - mysql
 
+  # The mysql service is built from a Dockerfile located in the config/dockerfiles directory.
+  # It is named mysql and listens on ports 3306 and 33060.
+  # It mounts the mysql directory to /var/lib/mysql in the container.
   mysql:
     build:
       context: config/dockerfiles
