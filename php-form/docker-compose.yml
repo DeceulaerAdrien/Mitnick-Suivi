@@ -1,45 +1,49 @@
-# This is a Docker Compose file that defines multiple services for a PHP application.
-
 services:
 
-  # The phpapache service is built from a Dockerfile located in the config/dockerfiles directory.
-  # It is named phpapache and listens on port 80.
-  # It mounts the current directory to /var/www/html in the container and a custom Apache configuration file to the default sites-available configuration.
   phpapache:
     build:
       context: config/dockerfiles
       dockerfile: Dockerfile_phpapache
+      args:
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_PORT: ${MYSQL_PORT}
+        DB_HOST: ${DB_HOST}
     container_name: phpapache
     ports:
-      - "80:80"
+      - "${APACHE_PORT}:80"
     volumes:
       - .:/var/www/html
-      - ./config/apache.conf:/etc/apache2/sites-available/000-default.conf
-
-  # The phpmyadmin service is built from a Dockerfile located in the config/dockerfiles directory.
-  # It is named phpmyadmin and listens on port 81.
-  # It depends on the phpapache and mysql services.
-  phpmyadmin:
-    build:
-      context: config/dockerfiles
-      dockerfile: Dockerfile_phpmyadmin
-    container_name: phpmyadmin
-    ports:
-      - "81:80"
     depends_on:
-      - phpapache
       - mysql
 
-  # The mysql service is built from a Dockerfile located in the config/dockerfiles directory.
-  # It is named mysql and listens on ports 3306 and 33060.
-  # It mounts the mysql directory to /var/lib/mysql in the container.
   mysql:
     build:
       context: config/dockerfiles
       dockerfile: Dockerfile_mysql
+      args:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     container_name: mysql
     volumes:
       - ./mysql:/var/lib/mysql
     ports:
-      - "3306:3306"
-      - "33060:33060"
+      - "${MYSQL_PORT}:3306"
+
+  phpmyadmin:
+    build:
+      context: config/dockerfiles
+      dockerfile: Dockerfile_phpmyadmin
+      args:
+        DB_HOST: ${DB_HOST}
+        MYSQL_PORT: ${MYSQL_PORT}
+    container_name: phpmyadmin
+    ports:
+      - "${PMA_PORT}:80"
+    depends_on:
+      - phpapache
+      - mysql
+

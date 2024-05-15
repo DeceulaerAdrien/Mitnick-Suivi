@@ -6,15 +6,17 @@ use PDO;
 
 class EventsPdo extends PDO
 {
-    private string $host = 'mysql';
-    private string $db = 'events';
+    private $host;
+    private $db ;
     private $user;
     private $pass;
 
     public function __construct()
     {
-        $this->user = getenv('DB_USER');
-        $this->pass = getenv('DB_PASS');
+        $this->user = getenv('MYSQL_USER');
+        $this->pass = getenv('MYSQL_PASSWORD');
+        $this->db = getenv('MYSQL_DATABASE');
+        $this->host = getenv('DB_HOST');
 
         $dsn = "mysql:host=$this->host;dbname=$this->db";
         $opt = [
