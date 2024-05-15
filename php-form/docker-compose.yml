@@ -1,9 +1,9 @@
 services:
-  
+
   phpapache:
     build:
-      context: ./dockerfiles
-      dockerfile: dockerfile_phpapache
+      context: config/dockerfiles
+      dockerfile: Dockerfile_phpapache
     container_name: phpapache
     ports:
       - "80:80"
@@ -11,21 +11,22 @@ services:
       - .:/var/www/html
       - ./config/apache.conf:/etc/apache2/sites-available/000-default.conf
 
-  phpMyAdmin:
-    image: phpmyadmin:latest
+  phpmyadmin:
+    build:
+      context: config/dockerfiles
+      dockerfile: Dockerfile_phpmyadmin
+    container_name: phpmyadmin
     ports:
       - "81:80"
-    environment:
-      - PMA_HOST=mysql
-      - PMA_PORT=3306
     depends_on:
       - phpapache
       - mysql
 
   mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: root
+    build:
+      context: config/dockerfiles
+      dockerfile: Dockerfile_mysql
+    container_name: mysql
     volumes:
       - ./mysql:/var/lib/mysql
     ports:
