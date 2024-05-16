@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Database\EventsPdo;
+use App\Object\EventsPdo;
 
 $validateType = [
     'bdate' => 'date',
@@ -125,6 +125,7 @@ function validate(array $typeFields, array $data): array
 
                     if (isset($_FILES[$field]) && $_FILES[$field]['error'] == 0) {
                         $allowed = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png');
+                        $fileName = $_FILES[$field]['name'];
                         $filetype = $_FILES[$field]["type"];
                         $filesize = $_FILES[$field]["size"];
                         $maxSize = 2 * 1024 * 1024; //2MO
@@ -139,7 +140,7 @@ function validate(array $typeFields, array $data): array
                         elseif ($filesize > $maxSize)
                             $errors[] = "le fichier doit être de taille inférieur à 2MO";
                         else
-                            $validatedData[$field] = $field;
+                            $validatedData[$field] = $fileName;
                     }
 
                     break;
