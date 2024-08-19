@@ -10,7 +10,7 @@ services:
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_PORT: ${MYSQL_PORT}
         DB_HOST: ${DB_HOST}
-    container_name: phpapache
+    container_name: deceulaer_adrien_phpapache
     ports:
       - "${APACHE_PORT}:80"
     volumes:
@@ -30,27 +30,27 @@ services:
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    container_name: mysql
+    container_name: deceulaer_adrien_mysql
     volumes:
       - ./mysql:/var/lib/mysql
     networks:
       - app-network
 
-  phpmyadmin:
-    build:
-      context: config/dockerfiles
-      dockerfile: Dockerfile_phpmyadmin
-      args:
-        DB_HOST: ${DB_HOST}
-        MYSQL_PORT: ${MYSQL_PORT}
-    container_name: phpmyadmin
-    depends_on:
-      - phpapache
-      - mysql
-    ports:
-      - "${PMA_PORT}:80"
-    networks:
-      - app-network
+#  phpmyadmin:
+#    build:
+#      context: config/dockerfiles
+#      dockerfile: Dockerfile_phpmyadmin
+#      args:
+#        DB_HOST: ${DB_HOST}
+#        MYSQL_PORT: ${MYSQL_PORT}
+#    container_name: deceulaer_adrien_phpmyadmin
+#    depends_on:
+#      - phpapache
+#      - mysql
+#    ports:
+#      - "${PMA_PORT}:80"
+#    networks:
+#      - app-network
 
 networks:
   app-network:
